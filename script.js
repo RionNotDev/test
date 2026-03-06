@@ -12,7 +12,7 @@ document.getElementById('searchForm').addEventListener('submit', function(e) {
     
     // API URL - Change this to your hosted API URL
     // Example: 'https://yoursite.com/mietubl_api.php'
-    const apiUrl = 'https://101.100.194.245:2008/mietubl_api.php'; // Replace with your actual API URL
+    const apiUrl = 'http://101.100.194.245:2008/mietubl_api.php'; // Replace with your actual API URL
     
     // Make API call
     fetch(apiUrl, {
@@ -91,3 +91,4 @@ function escapeHtml(text) {
 function escapeRegex(text) {
     return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
+
