@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Model Search</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1em;
+        }
+        
+        .search-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .search-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .search-btn:active {
+            transform: translateY(0);
+        }
+        
+        .results {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+        }
+        
+        .results.show {
+            display: block;
+        }
+        
+        .result-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e1e8ed;
+        }
+        
+        .result-header h2 {
+            color: #333;
+            font-size: 1.5em;
+        }
+        
+        .success .result-header h2 {
+            color: #10b981;
+        }
+        
+        .error .result-header h2 {
+            color: #ef4444;
+        }
+        
+        .not-found .result-header h2 {
+            color: #f59e0b;
+        }
+        
+        .matches {
+            margin-bottom: 20px;
+        }
+        
+        .matches h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .match-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .match-item {
+            background: #f0f4ff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: #667eea;
+            font-weight: 500;
+        }
+        
+        .groups h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .group {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .group-header {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .model-list {
+            line-height: 1.8;
+            color: #555;
+        }
+        
+        .highlight {
+            background-color: #fef08a;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .search-box,
+            .results {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Simple Model Search</h1>
+            <p>Search for mobile phone models on Mietubl</p>
+        </div>
+        
+        <div class="search-box">
+            <form id="searchForm">
+                <div class="form-group">
+                    <label for="model">Model Name:</label>
+                    <input type="text" 
+                           id="model" 
+                           name="model" 
+                           placeholder="Enter model name (e.g., iPhone 13)" 
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="panel">Panel Type:</label>
+                    <select id="panel" name="panel">
+                        <option value="HD clear glass">HD Clear Glass</option>
+                        <option value="HD glass">HD Glass</option>
+                        <option value="Matte">Matte</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="search-btn">Search Model</button>
+            </form>
+        </div>
+        
+        <!-- Results Section (Hidden by default) -->
+        <div class="results" id="resultsContainer">
+            <!-- Results will be displayed here dynamically -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
